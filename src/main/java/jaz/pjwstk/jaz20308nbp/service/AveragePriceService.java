@@ -29,7 +29,6 @@ public class AveragePriceService {
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
         long difference = Duration.between(start.atStartOfDay(), end.atStartOfDay()).toDays();
-        System.out.println(difference);
         Double average = root
                 .getRates().stream()
                 .mapToDouble(Rate::getMid)
