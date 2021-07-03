@@ -12,27 +12,27 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Collections;
 
+@Configuration
 public class SpringfoxConfiguration {
-    @Configuration
-    public class SpringfoxConfiguration {
-        @Bean
-        public Docket api() {
-            return new Docket(DocumentationType.OAS_30)
-                    .select()
-                    .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
-                    .paths(PathSelectors.any())
-                    .build().apiInfo(info());
-        }
-        private ApiInfo info(){
-            return new ApiInfo(
-                    "get average price from NBP",
-                    "get currency price form NBP API",
-                    "1.0",
-                    null,
-                    new Contact("Janusz ", null,"s20308@pjwstk.edu.pl"),
-                    null,
-                    null,
-                    Collections.emptyList());
-        }
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.OAS_30)
+                .select()
+                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+                .paths(PathSelectors.any())
+                .build().apiInfo(info());
+    }
+
+    private ApiInfo info() {
+        return new ApiInfo(
+                "get average price from NBP",
+                "get currency price form NBP API",
+                "1.0",
+                null,
+                new Contact("Michał", null, "s20308@pjwstk.edu.pl"),
+                null,
+                null,
+                Collections.emptyList());
     }
 }
+
