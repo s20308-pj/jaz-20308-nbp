@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 @Service
@@ -23,12 +26,14 @@ public class AveragePriceService {
 
     public EntryToDatabase getPriceFromDays(String currency, String startDate, String endDate) {
         Root root = restTemplate.getForObject("http://api.nbp.pl/api/exchangerates/rates/a/" + currency + "/" + startDate + "/" + endDate, Root.class);
-//        System.out.println(startDate.getTime()-endDate.getTime());
-        Double average = 0D;//TBD
-//        Double average = root
-//                .getRates().stream()
-//                .mapToDouble(Rate::getMid)
-//                .sum() / (startDate.getTime()-endDate.getTime());
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+        long difference = Duration.between(start.atStartOfDay(), end.atStartOfDay()).toDays();
+        System.out.println(difference);
+        Double average = root
+                .getRates().stream()
+                .mapToDouble(Rate::getMid)
+                .sum() / (difference);
         EntryToDatabase entryToDatabase = new EntryToDatabase(root.getCurrency(), startDate, endDate, average);
         averagePriceRepository.save(entryToDatabase);
         return entryToDatabase;
